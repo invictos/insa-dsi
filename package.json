@@ -1,0 +1,27 @@
+{
+  "name": "insa-reveil-ts",
+  "version": "1.0.0",
+  "description": "Auto start computers at INSA",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "serve": "tsc --watch",
+    "run": "node build/index.js "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.insa-rouen.fr:acamusat/insa-reveil-ts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/cookie": "^0.4.1",
+    "cookie": "^0.4.1",
+    "dotenv": "^10.0.0",
+    "node-fetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.6"
+  }
+}
