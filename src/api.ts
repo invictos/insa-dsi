@@ -1,4 +1,4 @@
-import { array_shuffle, infoError } from "./common.js";
+import { array_shuffle, error, infoError } from "./common.js";
 import { REGEXS } from "./config.js";
 import { authFetch, connect as loginConnect } from "./login.js";
 
@@ -15,7 +15,7 @@ export interface Computer {
 var auth: authFetch;
 
 export async function connect(logCredentials : boolean = false): Promise<void> {
-    auth = await loginConnect(logCredentials);
+    auth = await loginConnect(logCredentials).catch(e => {throw error("Can't login")});
 }
 
 async function fetch(url: string) {

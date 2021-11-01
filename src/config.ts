@@ -1,11 +1,10 @@
-import { env } from "process";
 import dotenv from 'dotenv';
 
 dotenv.config()
 
 export const SECRETS = {
-    'username': env.USERNAME,
-    'password': env.PASSWORD
+    'username': process.env.USERNAME,
+    'password': process.env.PASSWORD
 }
 
 export const REGEXS: { [key: string]: RegExp } = {

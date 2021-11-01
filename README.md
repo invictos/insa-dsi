@@ -5,8 +5,15 @@ Interface pour le site de la DSI
 >https://dsi.insa-rouen.fr/salles/
 
 Permets de démarrer les ordinateurs   
-Actuellement, le script maintient $ \frac{1}{3} $ des ordinateurs allumés de 6 à 23 heures, dans les salles ITI (MAHR211 & MAHR213)
+Actuellement, le script maintient $ 1/3 $ des ordinateurs allumés de 6 à 23 heures, dans les salles ITI (MAHR211 & MAHR213)
 
+Pour fonctionner, le script nécessite des variables d'environnement. L'utilisation d'un fichier .env est possible.
+
+```bash
+#Environnement variables // .env file
+USERNAME=<DSI Username>
+PASSWORD=<DSI Password>
+```
 
 ```typescript
 //Available API:
@@ -27,6 +34,7 @@ const started = await DSI.updateAndStartRooms([8, 9], 1);
 ```
 
 ```typescript
+//Computer object
 interface Computer {
     id: number
     id_dsi: string
