@@ -1,11 +1,11 @@
-import { getComputersByRooms, updateComputer } from "./api.js";
-import { connect } from "./login.js";
-
+import * as DSI from "./api.js";
 
 (async () => {
-    await connect();
 
-    const computers = await getComputersByRooms([8,9]);
+    await DSI.connect();
 
-    updateComputer(1);
+    const started = await DSI.updateAndStartRooms([8, 9], 1);
+
+    console.log(`💡 Started ${started} computers !`);
+
 })();
