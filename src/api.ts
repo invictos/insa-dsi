@@ -14,8 +14,8 @@ export interface Computer {
 
 var auth: authFetch;
 
-export async function connect(logCredentials : boolean = false): Promise<void> {
-    auth = await loginConnect(logCredentials).catch(e => {throw error("Can't login")});
+export async function connect(logCredentials: boolean = false): Promise<void> {
+    auth = await loginConnect(logCredentials).catch(e => { throw error("Can't login") });
 }
 
 async function fetch(url: string) {
@@ -47,10 +47,7 @@ export async function updateAndStartRoom(room_id: number, ratio_online: number):
     }
 
     //Update all the computers state
-    await Promise.all(
-        (await getComputersByRoom(room_id))
-            .map(computer => updateComputer(computer.id))
-    );
+    await updateRoom(room_id);
 
     //Get computers
     const computers = await getComputersByRoom(room_id);
@@ -66,6 +63,21 @@ export async function updateAndStartRoom(room_id: number, ratio_online: number):
         .map(computer => startComputer(computer.id)));
 
     return nb_to_start
+}
+
+export async function updateRooms(room_ids: number[]): Promise<void> {
+    await Promise.all(
+        room_ids.map(
+            room_id => updateRoom(room_id)
+        )
+    )
+}
+
+export async function updateRoom(room_id: number): Promise<void> {
+    await Promise.all(
+        (await getComputersByRoom(room_id))
+            .map(computer => updateComputer(computer.id))
+    );
 }
 
 export async function getComputersByRooms(room_ids: number[]): Promise<Computer[]> {
