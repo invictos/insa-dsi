@@ -31,3 +31,7 @@ export function array_shuffle<T>(array: Array<T>) {
 
     return array;
 }
+
+export function getRootPath(){
+    return new URL('.', import.meta.url).pathname.split('/').slice(0, -2).join('/') + '/';
+}

@@ -1,6 +1,9 @@
 import dotenv from 'dotenv';
+import { getRootPath } from './common.js';
 
-dotenv.config()
+dotenv.config({
+    path: getRootPath() + '.env'
+})
 
 export const SECRETS = {
     'username': process.env.USERNAME,
