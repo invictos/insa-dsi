@@ -8,7 +8,7 @@ export interface Computer {
     online: boolean
     os: string
     os_date: string
-    salle: string
+    room_dsi: string
     users: number
 }
 
@@ -100,7 +100,7 @@ export async function getComputersByRoom(room_id: number): Promise<Computer[]> {
                 online: computer[4] == 'normale',
                 os: computer[5],
                 os_date: computer[6],
-                salle: computer[7],
+                room_dsi: computer[7],
                 users: parseInt(computer[8])
             };
         }).sort((a, b) => a.id - b.id);
