@@ -6,7 +6,8 @@ import { error } from "./common.js";
     const argv = process.argv.slice(2);
     
     if(argv.length < 1){
-        throw error("Must use subcommand");
+        help();
+        return;
     }
 
     switch(argv[0]){
@@ -22,10 +23,24 @@ import { error } from "./common.js";
         case "ustatus":
             await ustatus(argv);
             break;
+        case "help":
+            help();
+            break;
         default:
-            throw error("Unknown subcommand");
+            throw error("Must use subcommand");
     }
 })();
+
+function help() {
+    console.log(`Usage:
+    insaDSI update <rooms> : update the status of the computers in room(s)
+    insaDSI upkeep <rooms> <online_ratio> : Load online_ratio of computers in each room(s)
+    insaDSI status <rooms> : Show computers status in room(s)
+    insaDSI help: Show this help
+
+    To specify multiple rooms, use coma: 8,9
+    `);
+}
 
 async function ustatus(argv: string[]){
     await update(argv);
