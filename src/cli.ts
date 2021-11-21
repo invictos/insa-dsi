@@ -36,7 +36,7 @@ async function status(argv: string[]){
     await DSI.connect();
 
     if(argv.length < 2){
-        throw error("update <rooms>");
+        throw error("status <rooms>");
     }
 
     const computers = await DSI.getComputersByRooms(parseRooms(argv[1]));
