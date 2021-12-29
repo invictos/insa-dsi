@@ -27,9 +27,13 @@ import { error } from "./common.js";
             help();
             break;
         default:
-            throw error("Must use subcommand");
+            throw error("Unknown command");
     }
-})();
+})()
+.catch(error => {
+    console.log(error);
+    help();
+});
 
 function help() {
     console.log(`Usage:
