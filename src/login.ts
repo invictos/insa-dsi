@@ -6,14 +6,14 @@ import { SECRETS, REGEXS } from "./config.js";
 export async function connect(logCredentials: boolean = false) {
 
     //Get needed variables for CAS login
-    const [JSessionID, lt] = await step1();
+    const [execution] = await step1();
     if(logCredentials){
-        infoLog("JSessionID: " + JSessionID);
-        infoLog("lt: " + lt);
+        infoLog("execution: " + execution);
     }
 
     //CAS login. ticket_cookie can be used to log into other services afterwards
-    const [ticket_cookie, ticket_url] = await step2(JSessionID, lt);
+    const [ticket_cookie, ticket_url] = await step2(execution);
+    
     if(logCredentials){
         infoLog("ticketCookie: " + ticket_cookie);
         infoLog("ticketUrl: " + ticket_url);
@@ -39,21 +39,17 @@ async function step3(ticket: string) {
     return [csrftoken, sessionid];
 }
 
-async function step2(JSessionID: string, lt: string) {
-    const url = `https://cas.insa-rouen.fr/cas/login;jsessionid=${JSessionID}?service=https%3A%2F%2Fdsi.insa-rouen.fr%2Faccounts%2Flogin%2F%3Fnext%3D%252Fsalles%252Feteintes%252F`
+async function step2(execution: string) {
+    const url = `https://cas.insa-rouen.fr/cas/login?service=https%3A%2F%2Fdsi.insa-rouen.fr%2Faccounts%2Flogin%2F%3Fnext%3D%252Fsalles%252Feteintes%252F`
 
     const urlParams = new URLSearchParams({
         username: SECRETS.username,
         password: SECRETS.password,
-        lt: lt,
+        execution: execution,
         _eventId: 'submit',
-        submit: 'SE CONNECTER'
     });
 
     const r2 = await fetch(url, {
-        headers: {
-            'Cookie': `JSESSIONID=${JSessionID}`
-        },
         method: 'POST',
         body: urlParams,
         redirect: 'manual'
@@ -69,12 +65,11 @@ async function step2(JSessionID: string, lt: string) {
 async function step1() {
     const r1 = await fetch("https://cas.insa-rouen.fr/cas/login?service=https%3A%2F%2Fdsi.insa-rouen.fr%2Faccounts%2Flogin%2F%3Fnext%3D%252Fsalles%252Feteintes%252F");
 
-    const JSessionID = getCookies(r1)['JSESSIONID'];
-
     const body = await r1.text();
-    const lt = body.match(REGEXS.LT)[1];
 
-    return [JSessionID, lt];
+    const execution = body.match(REGEXS.EXECUTION)[1];
+
+    return [execution];
 }
 
 function getCookies(r: Response) {
